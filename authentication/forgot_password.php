@@ -83,6 +83,7 @@ else
 <!DOCTYPE HTML>
 <HTML>
     <HEAD>
+        <LINK rel="stylesheet" type="text/css" href="../style/w3.css">
         <TITLE>
             Reset Password
         </TITLE>

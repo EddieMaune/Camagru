@@ -1,6 +1,13 @@
 <?PHP
 include_once("../config/setup.php");
 include_once("utilities.php");
+if (!isset($_POST['signup']))
+if (isset($_SERVER['HTTP_CACHE_CONTROL']) &&($_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0' ||  $_SERVER['HTTP_CACHE_CONTROL'] == 'no-cache'))
+{
+    echo "reloaded";
+}
+
+
 
 if (isset($_POST["signup"]))
 {
@@ -67,6 +74,7 @@ if (isset($_POST["signup"]))
 <!DOCTYPE HTML>
 <HTML>
 	<HEAD>
+        <LINK rel="stylesheet" type="text/css" href="../style/w3.css">
 		<TITLE>
 			Registration
 		</TITLE>
@@ -83,7 +91,7 @@ if (isset($_POST["signup"]))
 if (isset($result))
 {
 	echo $result;
-	unset($result);
+	//unset($result);
 }
 else
 {

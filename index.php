@@ -1,11 +1,14 @@
 <?PHP
 include_once("config/setup.php");
 include_once("authentication/session.php");
+if ($_GET['bmb'] == 1)
+    header("Location: authentication/signup.php");
 ?>
 <!DOCTYPE HTML>
 <HTML>
 	<HEAD>
-        <LINK rel="stylesheet" type="text/css" href="style/camagru.css">
+        <LINK rel="stylesheet" type="text/css" href="style/style.css">
+        <LINK rel="stylesheet" type="text/css" href="style/w3.css">
 		<TITLE>
 			Camagru
 		</TITLE>
@@ -16,7 +19,7 @@ include_once("authentication/session.php");
 		</H1>
         <A href="index.php">Home</A>
         <A href="upload.php">Upload</A>
-        <A href="#">Take/Edit Photo</A>
+        <A href="capture.php">Take/Edit Photo</A>
 		<HR>
 <?PHP
 $sql = "SELECT COUNT(*) FROM images";
@@ -24,7 +27,7 @@ $statement = $connection->prepare($sql);
 $statement->execute();
 $row = $statement->fetch();
 $num_rows = $row[0];
-$rows_per_page = 2;
+$rows_per_page = 3;
 $total_pages = ceil($num_rows / $rows_per_page);
 if (isset($_GET['current_page']) && is_numeric($_GET['current_page']))
 {
@@ -43,12 +46,14 @@ if ($current_page < 1)
     $current_page = 1;
 }
 $offset = ($current_page - 1) * $rows_per_page;
-$sql = "SELECT * FROM images LIMIT $offset, $rows_per_page";
+$sql = "SELECT * FROM images ORDER BY date_created DESC LIMIT $offset, $rows_per_page";
 $statement = $connection->prepare($sql);
 $statement->execute();
 while ($row = $statement->fetch())
 {
-    echo "<IMG src='images/".$row['image']."' height='300' width='200'>'";
+    $image_id = $row['id'];
+    $image_path = $row['image'];
+    echo "<A href='view_post.php?img_id=$image_id&image=$image_path'><IMG src='images/".$row['image']."' height='300' width='200'></A>'";
 }
 if (!isset($_SESSION['username'])):
 ?>
@@ -66,12 +71,15 @@ if (!isset($_SESSION['username'])):
 <?PHP
 endif;
 /**Pagination Links **/
-$range = 3;
+$range = 5;
 if ($current_page > 1)
 {
     $prev_page = $current_page - 1;
-    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$prev_page'>Previous</A>";
-    echo " ";
+    $first_page = 1;
+    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$first_page'>&laquo</A>";
+    echo "   ";
+    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$prev_page'><small>&lt</small></A>";
+    echo "   ";
 }
 for ($i = ($current_page - $range); $i < ($current_page + $range + 1); $i++)
 {
@@ -80,6 +88,7 @@ for ($i = ($current_page - $range); $i < ($current_page + $range + 1); $i++)
         if ($i == $current_page)
         {
             echo "<b>$i</b>";
+            echo "   ";
         }
         else
             {
@@ -91,7 +100,9 @@ for ($i = ($current_page - $range); $i < ($current_page + $range + 1); $i++)
 if ($current_page != $total_pages)
 {
     $next_page = $current_page + 1;
-    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$next_page'>Next</A>";
+    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$next_page'><small>&gt</small></A>";
+    echo "   ";
+    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$next_page'>&raquo</A>";
 }
 
 ?>

@@ -1,0 +1,11 @@
+img
+{
+    width: 15vw;
+    height: 20vh;
+    /*max-width: 100%;*/
+    /* height: auto;*/
+}
+#canvas {
+   /* display: none;*/
+    outline: black 3px solid;
+}

@@ -37,6 +37,10 @@ if (isset($_POST['btn']))
 <!DOCTYPE HTML>
 <HTML>
 	<HEAD>
+        <LINK rel="stylesheet" type="text/css" href="../style/w3.css">
+        <TITLE>
+            Submit Email
+        </TITLE>
 	</HEAD>
 	<BODY>
 		<H1>

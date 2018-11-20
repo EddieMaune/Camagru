@@ -14,7 +14,7 @@ if (isset($_POST['login']))
 		$password = $_POST['password'];
 
 		//check if user exists
-		$sql = "SELECT * FROM users WHERE username = :us ername";
+		$sql = "SELECT * FROM users WHERE username = :username";
 		$statement = $connection->prepare($sql);
 		$statement->execute(array(':username' => $user));
 		//check if row was returned i.e. if row is returned user actually exists.
@@ -62,6 +62,7 @@ if (isset($_POST['login']))
 <!DOCTYPE HTML>
 <HTML>
     <HEAD>
+        <LINK rel="stylesheet" type="text/css" href="../style/w3.css">
         <TITLE>
             Login
         </TITLE>
@@ -75,12 +76,16 @@ if (isset($_POST['login']))
            Login
 		</H2>
 <?PHP
+if (isset($_GET['msg']))
+{
+    $result = "<P style='color:red;'>".$_GET['msg'].".</P>";
+}
 if (isset($result))
 	echo $result;
 if (!empty($form_errors))
 	echo show_errors($form_errors);
 ?>
-		<FORM method="post" action="">
+		<FORM method="post" action="login.php">
 			<TABLE>
 				<TR>
 					<TD>

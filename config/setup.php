@@ -30,12 +30,18 @@ include_once("database.php");
 					id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 					comment VARCHAR(255) NOT NULL,
 					image_id INT(11) NOT NULL,
-					user_id INT(6) NOT NULL)";
+					user_id INT(6) NOT NULL,
+					user_firstname VARCHAR(25) NOT NULL)";
+			$connection->exec($sql);
+			$sql = "CREATE TABLE IF NOT EXISTS likes (
+					id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+					user_id INT(11) NOT NULL,
+					image_id INT(11) NOT NULL)";
 			$connection->exec($sql);
 		//	echo "Table/Database created succesfully";
 	}
 	catch (PDOException $e)
 	{
-		echo "Conncection failed: ".$e->getMessage();
+		echo "Conncection failed: ".$e->getMessage()."yep its here";
 	}
 ?>
