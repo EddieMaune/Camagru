@@ -203,6 +203,9 @@
                 canvas.height = height;
                 //Draw an image of the video on canvas
                 context.drawImage(video, 0, 0, width, height);
+
+                //create image from the canvas
+                const imgUrl = canvas.toDataURL('image/png');
                 for (var i = 0; i < overlays.length; i++)
                 {
                     if (overlays[i] == "smileyemoji.png")
@@ -222,10 +225,28 @@
                         context.drawImage(monkey, 450, 325, 50, 50);
                     }
                 }
-                //create image from the canvas
-                const imgUrl = canvas.toDataURL('image/png');
                 // ajax
                 var post_vars = "image_url=" + imgUrl;
+                for (var i = 0; i < overlays.length; i++)
+                {
+                    if (overlays[i] == "smileyemoji.png")
+                    {
+                       post_vars += "&" + "overlays[]=smileyemoji.png";
+                    }
+                    if (overlays[i] == "fireemoji.png")
+                    {
+                        post_vars += "&" + "overlays[]=fireemoji.png";
+                    }
+                    if (overlays[i] == "pooemoji.png")
+                    {
+                       post_vars += "&" + "overlays[]=pooemoji.png";
+                    }
+                    if (overlays[i] == "monkey.png")
+                    {
+                        post_vars += "&" + "overlays[]=monkey.png";
+                    }
+                }
+                console.log(post_vars);
                 hr.open("POST", phpurl, true );
                 hr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 hr.onreadystatechange = function () {
@@ -236,7 +257,7 @@
                 hr.send(post_vars);
                 //create img element
                 const img = document.createElement('img');
-                console.log(imgUrl);
+                //console.log(imgUrl);
                 //Set img src
                 img.setAttribute('src', imgUrl);
                 img.setAttribute('height', 100);
