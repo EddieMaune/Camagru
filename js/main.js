@@ -1,6 +1,6 @@
 //Global variables
 let width = 500,
-    height = 0,
+    height = 500,
     filter = 'none',
     streaming = false;
 //DOM Element
@@ -28,7 +28,7 @@ navigator.mediaDevices.getUserMedia({video: true, audio: false})
 video.addEventListener('canplay', function (e) {
     if (!streaming)
     {
-        height = video.videoHeight / (video.videoWidth / width);
+       // height = video.videoHeight / (video.videoWidth / width);
         video.setAttribute('width', width);
         video.setAttribute('height', height);
         canvas.setAttribute('width', width);
@@ -85,3 +85,51 @@ clearButton.addEventListener('click', function(e)
     //clear images
     photos.innerHTML = "";
 });
+
+function temp(x)
+{
+    if (x.id == "emoji_1")
+    {
+        if (document.getElementById('overlay_1').hasAttribute('src')) {
+            document.getElementById("overlay_1").style.display = "none";
+            document.getElementById("overlay_1").removeAttribute('src');
+        }
+        else {
+            document.getElementById("overlay_1").style.display = "block";
+            document.getElementById("overlay_1").setAttribute('src', x.src);
+        }
+    }
+    if (x.id == "emoji_2")
+    {
+        if (document.getElementById('overlay_2').hasAttribute('src')) {
+            document.getElementById("overlay_2").style.display = "none";
+            document.getElementById("overlay_2").removeAttribute('src');
+        }
+        else {
+            document.getElementById("overlay_2").style.display = "block";
+            document.getElementById("overlay_2").setAttribute('src', x.src);
+        }
+    }
+    if (x.id == "emoji_3")
+    {
+        if (document.getElementById('overlay_3').hasAttribute('src')) {
+            document.getElementById("overlay_3").style.display = "none";
+            document.getElementById("overlay_3").removeAttribute('src');
+        }
+        else {
+            document.getElementById("overlay_3").style.display = "block";
+            document.getElementById("overlay_3").setAttribute('src', x.src);
+        }
+    }
+    if (x.id == "emoji_4")
+    {
+        if (document.getElementById('overlay_4').hasAttribute('src')) {
+            document.getElementById("overlay_4").style.display = "none";
+            document.getElementById("overlay_4").removeAttribute('src');
+        }
+        else {
+            document.getElementById("overlay_4").style.display = "block";
+            document.getElementById("overlay_4").setAttribute('src', x.src);
+        }
+    }
+}

@@ -9,3 +9,46 @@ img
    /* display: none;*/
     outline: black 3px solid;
 }
+.overlay{
+    position: absolute;
+}
+#overlay_1
+{
+    position: absolute;
+    top:0px;
+    left:0px;
+    width: 50px;
+    height: 50px;
+}
+#overlay_2
+{
+    position: absolute;
+    top: 0px;
+    left:450px;
+    width:50px;
+    height:50px;
+}
+#overlay_3
+{
+    position: absolute;
+    top:325px;
+    left:0px;
+    width: 50px;
+    height: 50px;
+}
+#overlay_4
+{
+    position: absolute;
+    top: 325px;
+    left:450px;
+    width:50px;
+    height:50px;
+}
+.bottom-container
+{
+    background-color: darkgreen;
+}
+.top-container
+{
+    background-color: lightgreen;
+}
