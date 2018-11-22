@@ -35,7 +35,7 @@
         </h2>
     </div>
     <div class="top-container">
-        <div class="overlay">
+            <div class="overlay">
             <img id="overlay_1"  style="display: none;">
             <img id="overlay_2"  style="display: none;">
             <img id="overlay_3"  style="display: none;">

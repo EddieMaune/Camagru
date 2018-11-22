@@ -1,8 +1,9 @@
 <?PHP
 include_once("config/setup.php");
 include_once("authentication/session.php");
-if ($_GET['bmb'] == 1)
-    header("Location: authentication/signup.php");
+if (isset($_GET['bmb']))
+    if ($_GET['bmb'] == 1)
+         header("Location: authentication/signup.php");
 ?>
 <!DOCTYPE HTML>
 <HTML>
