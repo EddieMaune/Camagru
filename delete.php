@@ -13,7 +13,10 @@
             $connection->exec($sql);
             if (unlink("images/".$_POST['image'])) {
                 echo "deleted";
-                header("Location:index.php");
+                if (isset($_POST['from']))
+                    header("Location:capture.php");
+                else
+                    header("Location:index.php");
             }
             else{
                 echo "Failed to delete";

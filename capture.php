@@ -1,5 +1,6 @@
 <?PHP
     include_once ("authentication/session.php");
+    include_once ("config/setup.php");
 
     if (!isset($_SESSION['id']))
     {
@@ -34,26 +35,58 @@
             Take a picture
         </h2>
     </div>
-    <div class="top-container">
-            <div class="overlay">
-            <img id="overlay_1"  style="display: none;">
+    <div class="w3-container w3-mobile w3-animate-bottom">
+            <div class="overlay w3-mobile">
+            <img class="w3-round w3-hover-sepia" id="overlay_1"  style="display: none;">
             <img id="overlay_2"  style="display: none;">
             <img id="overlay_3"  style="display: none;">
             <img id="overlay_4"  style="display: none;">
         </div>
-            <video id="video">
+            <video id="video" class="w3-mobile">
                 Stream not available...
             </video>
-            <button id="photo-button" class="btn btn-dark"> Snap</button>
-            <button id="clear-button">Clear</button>
-            <canvas id="canvas"></canvas>
-    </div>
-    <div >
-        <div id="photos">
+            <button id="photo-button" class="w3-btn w3-gray  w3-mobile"> Snap</button>
+           <!-- <button id="clear-button">Clear</button>-->
+            <canvas id="canvas" class="w3-mobile"></canvas>
+        <div class="w3-content w3-center w3-mobile" style="float: right;height:500px;overflow: scroll;" id="photos">
+            <?PHP
+              try{
+                    $id = $_SESSION['id'];
+                    $sql = "SELECT * FROM images WHERE user_id=$id ORDER BY date_created DESC";
+                    $statement = $connection->prepare($sql);
+                    $statement->execute();
+                    while ($row = $statement->fetch())
+                    {
+                        $image = $row['image'];
+                        $img_id = $row['id'];
+                        $uid = $row['user_id'];
+                        echo "<div>";
+                        echo "<img src='images/$image'>";
+
+                        echo "
+                             <FORM action='delete.php' method='post'>
+                                   <input type='submit' value='Delete' name='delete'>
+                                   <input type='hidden' value='$image' name='image'>
+                                   <input type='hidden' value='$img_id' name='image_id'>
+                                   <input type='hidden' value='$uid' name='user_id'>
+                                   <input type='hidden'  name='from'>
+                             </FORM>";
+                        echo "</div>";
+                    }
+                }
+                catch (PDOException $ex)
+                {
+                    echo $ex;
+                }
+            ?>
         </div>
     </div>
-    <div class="bottom-container">
-        <img  id="emoji_1" src="images/overlays/smileyemoji.png" onclick="temp(this)">
+    <div >
+        <div>
+        </div>
+    </div>
+    <div class="w3-container">
+        <img class="w3-round w3-hover-sepia" id="emoji_1" src="images/overlays/smileyemoji.png" onclick="temp(this)">
         <img id="emoji_2" src="images/overlays/fireemoji.png" onclick="temp(this)">
         <img id="emoji_3" src="images/overlays/pooemoji.png" onclick="temp(this)">
         <img id="emoji_4" src="images/overlays/monkey.png" onclick="temp(this)">
@@ -246,7 +279,7 @@
                         post_vars += "&" + "overlays[]=monkey.png";
                     }
                 }
-                console.log(post_vars);
+                //console.log(post_vars);
                 hr.open("POST", phpurl, true );
                 hr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 hr.onreadystatechange = function () {
@@ -256,22 +289,27 @@
                 }
                 hr.send(post_vars);
                 //create img element
+                const div_a = document.createElement('div');
                 const img = document.createElement('img');
                 //console.log(imgUrl);
                 //Set img src
+                /*
                 img.setAttribute('src', imgUrl);
                 img.setAttribute('height', 100);
                 // add image to photos div
-                photos.appendChild(img);
+                div_a.appendChild(img);
+                photos.appendChild(div_a);*/
+                //location.reload();
+
             }
         }
 
         //clear Event
-        clearButton.addEventListener('click', function(e)
+      /*  clearButton.addEventListener('click', function(e)
         {
             //clear images
             photos.innerHTML = "";
-        });
+        });*/
 
 
     </script>

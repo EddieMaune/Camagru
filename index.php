@@ -103,7 +103,7 @@ if ($current_page != $total_pages)
     $next_page = $current_page + 1;
     echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$next_page'><small>&gt</small></A>";
     echo "   ";
-    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$next_page'>&raquo</A>";
+    echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$total_pages'>&raquo</A>";
 }
 
 ?>

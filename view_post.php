@@ -83,10 +83,7 @@
                 echo $ex;
             }
             ?>
-
-
         </div>
-
         <FORM action="comments.php" method="post">
             <textarea required name="comment"></textarea>
             <input type="submit" value = "Leave a comment" name="comment_btn">
