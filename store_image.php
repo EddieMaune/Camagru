@@ -4,7 +4,7 @@
     if (isset($_POST['image_url']) && isset($_SESSION['id']))
     {
         //$image_url = $_POST['image_url'];
-        $image = rand().".png";
+        $image = $_SESSION['username'].time().".png";
         $image_path = "images/".$image;
         $img_url = str_replace("data:image/png;base64,", "", $_POST['image_url']);
         $formatted_image_url = str_replace(" ", "+", $img_url);

@@ -49,35 +49,37 @@
            <!-- <button id="clear-button">Clear</button>-->
             <canvas id="canvas" class="w3-mobile"></canvas>
         <div class="w3-content w3-center w3-mobile" style="float: right;height:500px;overflow: scroll;" id="photos">
-            <?PHP
-              try{
-                    $id = $_SESSION['id'];
-                    $sql = "SELECT * FROM images WHERE user_id=$id ORDER BY date_created DESC";
-                    $statement = $connection->prepare($sql);
-                    $statement->execute();
-                    while ($row = $statement->fetch())
-                    {
-                        $image = $row['image'];
-                        $img_id = $row['id'];
-                        $uid = $row['user_id'];
-                        echo "<div>";
-                        echo "<img src='images/$image'>";
 
-                        echo "
-                             <FORM action='delete.php' method='post'>
-                                   <input type='submit' value='Delete' name='delete'>
-                                   <input type='hidden' value='$image' name='image'>
-                                   <input type='hidden' value='$img_id' name='image_id'>
+            <?PHP
+            /*
+            try{
+                $id = $_SESSION['id'];
+                $sql = "SELECT * FROM images WHERE user_id=$id ORDER BY date_created DESC";
+                $statement = $connection->prepare($sql);
+                $statement->execute();
+                while ($row = $statement->fetch())
+                {
+                    $image = $row['image'];
+                    $img_id = $row['id'];
+                    $uid = $row['user_id'];
+                    echo "<div>";
+                    echo "<img src='images/$image'>";
+
+                    echo "
+                             <FORM method='post' id='remove'>
+                                   <input type='submit' onclick='delimage();'value='Delete' name='delete'>
+                                   <input type='hidden' id='image' value='$image' name='image'>
+                                   <input type='hidden' id='image_id' value='$img_id' name='image_id'>
                                    <input type='hidden' value='$uid' name='user_id'>
                                    <input type='hidden'  name='from'>
                              </FORM>";
-                        echo "</div>";
-                    }
+                    echo "</div>";
                 }
-                catch (PDOException $ex)
-                {
-                    echo $ex;
-                }
+            }
+            catch (PDOException $ex)
+            {
+                echo $ex;
+            }*/
             ?>
         </div>
     </div>
@@ -221,11 +223,13 @@
         photoButton.addEventListener('click', function(e)
         {
             takePicture();
+           // load_image();
             e.preventDefault();
         }, false);
         //Take Picture from canvas
         function takePicture()
         {
+
             const context = canvas.getContext('2d');
             if (width && height)
             {
@@ -283,17 +287,20 @@
                 hr.open("POST", phpurl, true );
                 hr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 hr.onreadystatechange = function () {
-                    if (hr.readyState == 4 && hr.status == 200)
+                    if (hr.readyState == 4 && hr.status == 200) {
                         var return_data = hr.responseText;
-                    document.getElementById("output").innerHTML = return_data;
+                        load_image();
+                    }
+               //     document.getElementById("output").innerHTML = return_data;
                 }
                 hr.send(post_vars);
+               // load_image();
                 //create img element
-                const div_a = document.createElement('div');
-                const img = document.createElement('img');
+               // const div_a = document.createElement('div');
+               // const img = document.createElement('img');
                 //console.log(imgUrl);
                 //Set img src
-                /*
+                /*alert
                 img.setAttribute('src', imgUrl);
                 img.setAttribute('height', 100);
                 // add image to photos div
@@ -311,6 +318,53 @@
             photos.innerHTML = "";
         });*/
 
+      window.onload = function () {
+          load_image();
+       // document.getElementById('remove').addEventListener('submit', function(event){
+         //   event.preventDefault();
+           // }
+
+        //})
+          };
+
+      function delimage(button) {
+          /*alert(button.getAttribute("data-image_id"));
+          alert(button.getAttribute("data-image"));
+          alert(theinfo.getAttribute("data-from"));*/
+          var hr = new XMLHttpRequest();
+          var image_id = button.getAttribute('data-image_id');
+          var image = button.getAttribute('data-image');
+          var post_vars = "delete=1&image_id="+image_id + "&image=" + image + "&from=1";
+
+          hr.open("POST", "delete.php", true );
+          hr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+          hr.onreadystatechange = function () {
+              if (hr.readyState == 4 && hr.status == 200) {
+                  var return_data = hr.responseText;
+                  //document.getElementById("output").innerHTML = return_data;
+                  console.log(return_data);
+              }
+          }
+          hr.send(post_vars);
+          load_image();
+      }
+
+      function load_image() {
+            var hr = new XMLHttpRequest();
+           // var post_vars = "delete=1&image_id="+image_id + "&image=" + image + "&from=1";
+           // console.log(image);
+
+            hr.open("POST", "private_gallery.php", true);
+            hr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            hr.onreadystatechange = function () {
+                if (hr.readyState == 4 && hr.status == 200) {
+                    var return_data = hr.responseText;
+                    document.getElementById("photos").innerHTML = return_data;
+                    //console.log(return_data);
+                }
+            }
+            hr.send();
+        }
 
     </script>
 </body>

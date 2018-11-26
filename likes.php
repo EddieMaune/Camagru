@@ -11,15 +11,26 @@ if (isset($_POST['like'])) {
 
     try {
         $sql = "SELECT * FROM likes WHERE user_id = $user_id AND image_id = $img_id";
-        $statement = $connection->prepare($sql);
-        $statement->execute();
-        if ($statement->rowCount() == 0) {
+        $statement1 = $connection->prepare($sql);
+        $statement1->execute();
+        if ($statement1->rowCount() == 0) {
             $sql = "INSERT INTO likes (user_id, image_id) VALUES (:user_id, :image_id)";
             $statement = $connection->prepare($sql);
             $statement->execute(array(':user_id'=>$user_id, ':image_id' => $img_id));
             $sql = "UPDATE images SET likes = :likes WHERE id = :img_id";
             $statement = $connection->prepare($sql);
             $statement->execute(array(':likes' => $likes, ':img_id' => $img_id));
+        }
+        if ($statement1->rowCount() == 1)
+        {
+            $sql = "DELETE FROM likes WHERE user_id = $user_id AND image_id = $img_id";
+            $statement2 = $connection->prepare($sql);
+            $statement2->execute();
+            if ($statement2->rowCount() == 1) {
+                $sql = "UPDATE images SET likes = :likes WHERE id = :img_id";
+                $statement = $connection->prepare($sql);
+                $statement->execute(array(':likes' => $likes - 2, ':img_id' => $img_id));
+            }
         }
     }
     catch (PDOException $ex)
