@@ -89,6 +89,7 @@
             <input type="submit" value = "Leave a comment" name="comment_btn">
             <input type="hidden" value="<?PHP echo $img;?>" name="image">
             <input type="hidden" value="<?PHP echo $img_id;?>" name="image_id">
+            <input type="hidden" value="<?PHP echo $uid;?>" name="uid">
         </FORM>
     </div>
     </BODY>

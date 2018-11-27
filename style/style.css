@@ -10,7 +10,7 @@ img
     outline: black 3px solid;
 }
 .overlay{
-    position: absolute;
+    position: relative;
 }
 #overlay_1
 {

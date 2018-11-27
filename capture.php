@@ -36,12 +36,12 @@
         </h2>
     </div>
     <div class="w3-container w3-mobile w3-animate-bottom">
-            <div class="overlay w3-mobile">
-            <img class="w3-round w3-hover-sepia" id="overlay_1"  style="display: none;">
-            <img id="overlay_2"  style="display: none;">
-            <img id="overlay_3"  style="display: none;">
-            <img id="overlay_4"  style="display: none;">
-        </div>
+            <div class="overlay">
+                <img    id="overlay_1"  style="display: none;">
+                <img id="overlay_2"  style="display: none;">
+                <img id="overlay_3"  style="display: none;">
+                <img id="overlay_4"  style="display: none;">
+            </div>
             <video id="video" class="w3-mobile">
                 Stream not available...
             </video>
@@ -88,10 +88,10 @@
         </div>
     </div>
     <div class="w3-container">
-        <img class="w3-round w3-hover-sepia" id="emoji_1" src="images/overlays/smileyemoji.png" onclick="temp(this)">
-        <img id="emoji_2" src="images/overlays/fireemoji.png" onclick="temp(this)">
-        <img id="emoji_3" src="images/overlays/pooemoji.png" onclick="temp(this)">
-        <img id="emoji_4" src="images/overlays/monkey.png" onclick="temp(this)">
+        <img class="w3-hover-sepia  w3-mobile" id="emoji_1" src="images/overlays/smileyemoji.png" onclick="temp(this)">
+        <img class="w3-hover-sepia  w3-mobile" id="emoji_2" src="images/overlays/fireemoji.png" onclick="temp(this)">
+        <img class="w3-hover-sepia  w3-mobile" id="emoji_3" src="images/overlays/pooemoji.png" onclick="temp(this)">
+        <img class="w3-hover-sepia  w3-mobile" id="emoji_4" src="images/overlays/monkey.png" onclick="temp(this)">
     </div>
     <p id="output"></p>
     <script>

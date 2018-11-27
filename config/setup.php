@@ -17,7 +17,8 @@ include_once("database.php");
 				email VARCHAR(100) NOT NULL UNIQUE,
 				confirmed INT(11) NOT NULL,
 				confirm_code INT(11) NOT NULL,
-				reg_date TIMESTAMP)";
+				reg_date TIMESTAMP,
+				receive_notifications INT(6) NOT NULL DEFAULT 1)";
 			$connection->exec($sql);
 			$sql = "CREATE TABLE IF NOT EXISTS images (
 				id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
