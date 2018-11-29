@@ -21,6 +21,7 @@ if (isset($_GET['bmb']))
         <A href="index.php">Home</A>
         <A href="upload.php">Upload</A>
         <A href="capture.php">Take/Edit Photo</A>
+        <a href="preferences.php">Preferences</a>
 		<HR>
 <?PHP
 $sql = "SELECT COUNT(*) FROM images";
