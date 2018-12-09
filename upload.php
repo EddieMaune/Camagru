@@ -2,7 +2,45 @@
     include_once("config/setup.php");
     include_once("authentication/session.php");
 
-    if (isset($_SESSION['username']))
+
+    if ($_FILES['file']['size'] > 0)
+    {
+        if ($_FILES['file']['size'] < 153600)
+        {
+            if (move_uploaded_file($_FILES['file']['tmp_name'], "images/temp/"."temp.png"))
+            {
+                ?>
+<script type="text/javascript">
+    parent.document.getElementById("message").innerHTML = "";
+    parent.document.getElementById("file").value = "";
+    window.parent.updatepicture("<?PHP echo 'images/temp/'.'temp.png';?>");
+</script>
+<?PHP
+            }
+            else
+            {
+                //upload failed
+                ?>
+                <script type="text/javascript">
+                    parent.document.getElementById('message').innerHTML = "<font color='#ff0000'> There was an error uploading your image</font>";
+                </script>
+
+    <?PHP
+            }
+        }
+        else
+        {
+            //file is too big
+            ?>
+            <script type="text/javascript">
+                parent.document.getElementById('message').innerHTML =  "<font color='#ff0000'> Your file is bigger than 150kb, please try uploading a different one.</font>";
+            </script>
+            <?PHP
+        }
+    }
+?>
+  <?PHP
+            /*  if (isset($_SESSION['username']))
     {
         if (isset($_POST['submit_image']))
         {
@@ -34,26 +72,6 @@
     else
     {
         header("Location: index.php");
-    }
+    }*/
 ?>
-<HTML>
-    <HEAD>
-        <TITLE>
-            Upload Image
-        </TITLE>
-    </HEAD>
-    <BODY>
-    <H1>
-        Camagru
-    </H1>
-    <HR>
-    <?PHP if (isset($msg))
-            echo $msg;
-    ?>
-        <FORM method="POST" action="upload.php" enctype="multipart/form-data">
-            <INPUT type="file" name="image">
-            <INPUT type="submit" name="submit_image" value="Upload">
-        </FORM>
-        <A href="index.php">Home</A>
-    </BODY>
-</HTML>
+

@@ -5,12 +5,13 @@
 
     if (!isset($_SESSION['username']))
     {
-        header("Location: index.php");
+        $msg = "You need to be logged in to do that.";
+        header("Location: authentication/login.php?msg=$msg");
     }
     $id = $_SESSION['id'];
     if (isset($_POST[change_email]))
     {
-        $new_email = $_POST['email'];
+        $new_email =  htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8') ;
         try
         {
             $sql = "UPDATE users SET email = :email WHERE id = :id";
@@ -33,20 +34,27 @@
     }
     if (isset($_POST['change_username']))
     {
-        $new_username = $_POST['username'];
-        try
+        $form_errors = array();
+        $check_length = array("username" => 5);
+        $form_errors = array_merge($form_errors, check_min_length($check_length));
+        $new_username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
+        if (empty($form_errors))
         {
-            $sql = "UPDATE users SET username = :username WHERE id = :id";
-            $statement = $connection->prepare($sql);
-            $statement->execute(array(":id"=>$id, ":username" => $new_username));
-            if ($statement->rowCount() == 1)
+            try
             {
-                $result = "<P style='color: green;'>Your username has been updated.</P>";
+                $sql = "UPDATE users SET username = :username WHERE id = :id";
+                $statement = $connection->prepare($sql);
+                $statement->execute(array(":id"=>$id, ":username" => $new_username));
+                if ($statement->rowCount() == 1)
+                {
+                    $result = "<P style='color: green;'>Your username has been updated.</P>";
+                    $_SESSION['username'] = $new_username;
+                }
             }
-        }
-        catch (PDOException $exception)
-        {
-                echo $ex;
+            catch (PDOException $exception)
+            {
+             echo $ex;
+            }
         }
     }
 if (isset($_POST['change_password']))
@@ -58,8 +66,8 @@ if (isset($_POST['change_password']))
     $form_errors = array_merge($form_errors, check_min_length($check_length));
     if (empty($form_errors))
     {
-        $password1 = $_POST['new_password'];
-        $password2 = $_POST['confirm_password'];
+        $password1 =  htmlspecialchars($_POST['new_password'], ENT_QUOTES, 'UTF-8');
+        $password2 =  htmlspecialchars($_POST['confirm_password'], ENT_QUOTES, 'UTF-8');
         $id = $_SESSION['id'];
 
         if ($password1 != $password2)
@@ -148,6 +156,23 @@ if (isset($_POST['change_notify']))
      }
 }
 
+try{
+        $sql = "SELECT * FROM users WHERE id = $id";
+        $stat = $connection->prepare($sql);
+        $stat->execute();
+        if ($stat->rowCount() == 1)
+        {
+            while ($row = $stat->fetch())
+            {
+                $is_checked = $row['receive_notifications'];
+            }
+        }
+}
+catch (PDOException $exception)
+{
+    echo $exception;
+}
+
 ?>
 
 <!doctype html>
@@ -166,11 +191,10 @@ if (isset($_POST['change_notify']))
         Camagru
     </h1>
     <A href="index.php">Home</A>
-    <A href="upload.php">Upload</A>
     <A href="capture.php">Take/Edit Photo</A>
     <hr>
     <?PHP
-        if (isset($result)) {
+        if (isset($result) || isset($form_errors)) {
             echo $result;
             echo show_errors($form_errors);
         }
@@ -207,7 +231,7 @@ if (isset($_POST['change_notify']))
                     <label for="username">New username:</label>
                 </td>
                 <td>
-                    <input type="text" name="username">
+                    <input type="text" name="username" required>
                 </td>
             </tr>
             <tr>
@@ -255,9 +279,13 @@ if (isset($_POST['change_notify']))
     </h3>
     <form action="" method="post">
         <label for="notify">Receive Notifications</label>
-        <input type="checkbox" name="notify" <?PHP if (isset($checked))echo "checked";?>>
+        <input type="checkbox" name="notify" <?PHP if ($is_checked) echo "checked";?>>
         <br>
         <input type="submit" value="save change" name="change_notify">
     </form>
+    <p align="center">
+        You are logged in as <?PHP if(isset($_SESSION['username'])) echo $_SESSION['username'];?>
+        <A href="authentication/logout.php">Logout</A>
+    </p>
 </body>
 </html>

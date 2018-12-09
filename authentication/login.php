@@ -10,8 +10,9 @@ if (isset($_POST['login']))
 	if (empty($form_errors))
 	{
 		//collect form data
-		$user = $_POST['username'];
-		$password = $_POST['password'];
+
+		$user = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
+		$password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
 
 		//check if user exists
 		$sql = "SELECT * FROM users WHERE username = :username";
@@ -62,6 +63,7 @@ if (isset($_POST['login']))
 <!DOCTYPE HTML>
 <HTML>
     <HEAD>
+        <meta charset="UTF-8">
         <LINK rel="stylesheet" type="text/css" href="../style/w3.css">
         <TITLE>
             Login

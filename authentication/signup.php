@@ -1,13 +1,11 @@
 <?PHP
 include_once("../config/setup.php");
 include_once("utilities.php");
-if (!isset($_POST['signup']))
+/*if (!isset($_POST['signup']))
 if (isset($_SERVER['HTTP_CACHE_CONTROL']) &&($_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0' ||  $_SERVER['HTTP_CACHE_CONTROL'] == 'no-cache'))
 {
     echo "reloaded";
-}
-
-
+}*/
 
 if (isset($_POST["signup"]))
 {
@@ -24,11 +22,12 @@ if (isset($_POST["signup"]))
 	    $form_errors = array_merge($form_errors, check_password_strength($_POST['password']));
 	if (empty($form_errors))
 	{
-		$email = $_POST['email'];
-		$firstname = $_POST['firstname'];
-		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$confirm_password = $_POST['confirm_password'];
+
+		$email =  htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+		$firstname = htmlspecialchars($_POST['firstname'], ENT_QUOTES, 'UTF-8');
+		$username = htmlspecialchars( $_POST['username'], ENT_QUOTES, 'UTF-8');
+		$password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+		$confirm_password = htmlspecialchars($_POST['confirm_password'], ENT_QUOTES, 'UTF-8') ;
 
 
 		if ($confirm_password == $password)
@@ -74,6 +73,7 @@ if (isset($_POST["signup"]))
 <!DOCTYPE HTML>
 <HTML>
 	<HEAD>
+        <meta charset="UTF-8">
         <LINK rel="stylesheet" type="text/css" href="../style/w3.css">
 		<TITLE>
 			Registration

@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <HTML>
     <HEAD>
+        <meta charset="UTF-8">
         <LINK rel="stylesheet" type="text/css" href="style/style.css">
         <LINK rel="stylesheet" type="text/css" href="style/w3.css">
         <TITLE>

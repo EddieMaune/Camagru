@@ -7,7 +7,7 @@
     {
         $img = $_POST['image'];
         $img_id = $_POST['image_id'];
-        $comment = $_POST['comment'];
+        $comment = htmlspecialchars($_POST['comment'], ENT_QUOTES, 'UTF-8');
         $user_id = $_SESSION['id'];
         $uid = $_POST['uid'];
         $user_firstname;

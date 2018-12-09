@@ -12,6 +12,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <script type="text/javascript">
+        function updatepicture(pic) {
+            document.getElementById('upload').setAttribute("src",pic);
+        }
+    </script>
     <LINK rel="stylesheet" type="text/css" href="style/style.css">
     <LINK rel="stylesheet" type="text/css" href="style/w3.css">
     <meta charset="UTF-8">
@@ -28,79 +33,102 @@
             Camagru
         </h1>
         <A href="index.php">Home</A>
-        <A href="upload.php">Upload</A>
-        <A href="capture.php">Take/Edit Photo</A>
+        <A href="preferences.php">Preferences</A>
         <hr>
         <h2>
             Take a picture
         </h2>
     </div>
+    <div id="upload_form">
+        <p id="message"></p>
+        <form id="form" method="post" action="upload.php" enctype="multipart/form-data" target="iframe">
+            <input type="file" id="file" name="file">
+            <input type="submit" name="submit" id="submit" value="upload">
+        </form>
+    </div>
     <div class="w3-container w3-mobile w3-animate-bottom">
+        <div style="float: left;"  >
+
             <div class="overlay">
                 <img    id="overlay_1"  style="display: none;">
-                <img id="overlay_2"  style="display: none;">
-                <img id="overlay_3"  style="display: none;">
-                <img id="overlay_4"  style="display: none;">
+                <img    id="overlay_2"  style="display: none;">
+                <img    id="overlay_3"  style="display: none;">
+                <img    id="overlay_4"  style="display: none;">
+               <!-- <image id="upload" style="width: 450px; height: 375px; ;" alt="upload" src="images/test.png"></image>-->
             </div>
+            <iframe src="" name="iframe" frameborder="0" style="display: none;"></iframe>
+            <image id="upload" style="min-width: 500px; min-height: 375px; max-height: 375px;" alt="Your uploaded image will appear here"></image>
             <video id="video" class="w3-mobile">
                 Stream not available...
             </video>
-            <button id="photo-button" class="w3-btn w3-gray  w3-mobile"> Snap</button>
-           <!-- <button id="clear-button">Clear</button>-->
-            <canvas id="canvas" class="w3-mobile"></canvas>
-        <div class="w3-content w3-center w3-mobile" style="float: right;height:500px;overflow: scroll;" id="photos">
-
-            <?PHP
-            /*
-            try{
-                $id = $_SESSION['id'];
-                $sql = "SELECT * FROM images WHERE user_id=$id ORDER BY date_created DESC";
-                $statement = $connection->prepare($sql);
-                $statement->execute();
-                while ($row = $statement->fetch())
-                {
-                    $image = $row['image'];
-                    $img_id = $row['id'];
-                    $uid = $row['user_id'];
-                    echo "<div>";
-                    echo "<img src='images/$image'>";
-
-                    echo "
-                             <FORM method='post' id='remove'>
-                                   <input type='submit' onclick='delimage();'value='Delete' name='delete'>
-                                   <input type='hidden' id='image' value='$image' name='image'>
-                                   <input type='hidden' id='image_id' value='$img_id' name='image_id'>
-                                   <input type='hidden' value='$uid' name='user_id'>
-                                   <input type='hidden'  name='from'>
-                             </FORM>";
-                    echo "</div>";
-                }
-            }
-            catch (PDOException $ex)
-            {
-                echo $ex;
-            }*/
-            ?>
+            <div>
+                <button id="photo-button" class="w3-btn w3-gray  w3-mobile" style="width: 100%;"> Snap </button>
+            </div>
         </div>
+        <div style="float: left; margin-left: 25px;">
+            <canvas id="canvas" class="w3-mobile"></canvas>
+            <br>
+                <button id="save-button" class="w3-mobile w3-btn w3-green" style="width: 100%; margin: 1px -3px;"> Save </button>
+        </div>
+        <div class="w3-content w3-mobile" style="float: right;height:500px;overflow: scroll;" id="photos"></div>
     </div>
-    <div >
+
+        <?PHP
+        /*
+        try{
+            $id = $_SESSION['id'];
+            $sql = "SELECT * FROM images WHERE user_id=$id ORDER BY date_created DESC";
+            $statement = $connection->prepare($sql);
+            $statement->execute();
+            while ($row = $statement->fetch())
+            {
+                $image = $row['image'];
+                $img_id = $row['id'];
+                $uid = $row['user_id'];
+                echo "<div>";
+                echo "<img src='images/$image'>";
+
+                echo "
+                         <FORM method='post' id='remove'>
+                               <input type='submit' onclick='delimage();'value='Delete' name='delete'>
+                               <input type='hidden' id='image' value='$image' name='image'>
+                               <input type='hidden' id='image_id' value='$img_id' name='image_id'>
+                               <input type='hidden' value='$uid' name='user_id'>
+                               <input type='hidden'  name='from'>
+                         </FORM>";
+                echo "</div>";
+            }
+        }
+        catch (PDOException $ex)
+        {
+            echo $ex;
+        }*/
+        ?>
+    <!--<div >
         <div>
         </div>
-    </div>
+    </div>-->
     <div class="w3-container">
         <img class="w3-hover-sepia  w3-mobile" id="emoji_1" src="images/overlays/smileyemoji.png" onclick="temp(this)">
         <img class="w3-hover-sepia  w3-mobile" id="emoji_2" src="images/overlays/fireemoji.png" onclick="temp(this)">
         <img class="w3-hover-sepia  w3-mobile" id="emoji_3" src="images/overlays/pooemoji.png" onclick="temp(this)">
         <img class="w3-hover-sepia  w3-mobile" id="emoji_4" src="images/overlays/monkey.png" onclick="temp(this)">
     </div>
+    <p align="center">
+        You are logged in as <?PHP if(isset($_SESSION['username'])) echo $_SESSION['username'];?>
+        <A href="authentication/logout.php">Logout</A>
+    </p>
+
     <p id="output"></p>
     <script>
         var overlays = [];
 
         function temp(x)
         {
+
             if (x.id == "emoji_1")
             {
+
                 if (document.getElementById('overlay_1').hasAttribute('src')) {
                     document.getElementById("overlay_1").style.display = "none";
                     document.getElementById("overlay_1").removeAttribute('src');
@@ -117,6 +145,7 @@
                     overlays.push('smileyemoji.png');
                     console.log(overlays);
                 }
+
             }
             if (x.id == "emoji_2")
             {
@@ -175,18 +204,26 @@
                     console.log(overlays);
                 }
             }
+            if (overlays.length == 0)
+            {
+                photoButton.disabled = true;
+            }
+            else
+            {
+                photoButton.disabled = false;
+            }
         }
         //Global variables
         let width = 500,
             height = 0,
-            filter = 'none',
             streaming = false;
+        let blank = 1;
         //DOM Element
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const photos = document.getElementById('photos');
         const photoButton = document.getElementById('photo-button');
-        const clearButton = document.getElementById('clear-button');
+        const  saveButton = document.getElementById('save-button');
         const smiley = document.getElementById('emoji_1');
         const fire = document.getElementById('emoji_2');
         const poo = document.getElementById('emoji_3');
@@ -197,11 +234,15 @@
             .then(function (stream)
             {
                 //Link to the video source
+                document.getElementById('upload').style.display = "none";
+                document.getElementById('upload_form').style.display = "none";
                 video.srcObject = stream;
                 video.play();
+
             })
             .catch(function(err)
             {
+                video.style.display = "none";
                 console.log(`Error: ${err}`);
             });
 
@@ -223,26 +264,60 @@
         photoButton.addEventListener('click', function(e)
         {
             takePicture();
-           // load_image();
+            e.preventDefault();
+        }, false);
+        saveButton.addEventListener('click', function(e)
+        {
+            savePicture();
             e.preventDefault();
         }, false);
         //Take Picture from canvas
         function takePicture()
         {
-
             const context = canvas.getContext('2d');
-            if (width && height)
+            if (video.style.display != "none")
             {
-                var hr = new XMLHttpRequest();
-                var phpurl = "store_image.php";
-                //set canvas props
-                canvas.width = width;
-                canvas.height = height;
-                //Draw an image of the video on canvas
-                context.drawImage(video, 0, 0, width, height);
+                blank = 0;
+                if (width && height)
+                {
+                    //set canvas props
+                    canvas.width = width;
+                    canvas.height = height;
+                    //Draw an image of the video on canvas
+                    context.drawImage(video, 0, 0, width, height);
+                    //create image from the canvas
 
+                    for (var i = 0; i < overlays.length; i++)
+                    {
+                        if (overlays[i] == "smileyemoji.png")
+                        {
+                            context.drawImage(smiley, 0, 0, 50, 50);
+                        }
+                        if (overlays[i] == "fireemoji.png")
+                        {
+                            context.drawImage(fire, 450, 0, 50, 50);
+                        }
+                        if (overlays[i] == "pooemoji.png")
+                        {
+                            context.drawImage(poo, 0, 325, 50, 50);
+                        }
+                        if (overlays[i] == "monkey.png")
+                        {
+                            context.drawImage(monkey, 450, 325, 50, 50);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                blank = 0;
+                const upload = document.getElementById("upload");
+                canvas.width = 500;
+                canvas.height = 375;
+                //Draw an image of the video on canvas
+                context.drawImage(upload, 0, 0, 500, 375);
                 //create image from the canvas
-                const imgUrl = canvas.toDataURL('image/png');
+
                 for (var i = 0; i < overlays.length; i++)
                 {
                     if (overlays[i] == "smileyemoji.png")
@@ -262,13 +337,23 @@
                         context.drawImage(monkey, 450, 325, 50, 50);
                     }
                 }
+            }
+        }
+
+        function savePicture()
+        {
+            if(!blank)
+            {
+                var hr = new XMLHttpRequest();
+                var phpurl = "store_image.php";
+                const imgUrl = canvas.toDataURL('image/png');
                 // ajax
                 var post_vars = "image_url=" + imgUrl;
                 for (var i = 0; i < overlays.length; i++)
                 {
                     if (overlays[i] == "smileyemoji.png")
                     {
-                       post_vars += "&" + "overlays[]=smileyemoji.png";
+                        post_vars += "&" + "overlays[]=smileyemoji.png";
                     }
                     if (overlays[i] == "fireemoji.png")
                     {
@@ -276,14 +361,13 @@
                     }
                     if (overlays[i] == "pooemoji.png")
                     {
-                       post_vars += "&" + "overlays[]=pooemoji.png";
+                        post_vars += "&" + "overlays[]=pooemoji.png";
                     }
                     if (overlays[i] == "monkey.png")
                     {
                         post_vars += "&" + "overlays[]=monkey.png";
                     }
                 }
-                //console.log(post_vars);
                 hr.open("POST", phpurl, true );
                 hr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 hr.onreadystatechange = function () {
@@ -291,13 +375,13 @@
                         var return_data = hr.responseText;
                         load_image();
                     }
-               //     document.getElementById("output").innerHTML = return_data;
+                    //     document.getElementById("output").innerHTML = return_data;
                 }
                 hr.send(post_vars);
-               // load_image();
+                // load_image();
                 //create img element
-               // const div_a = document.createElement('div');
-               // const img = document.createElement('img');
+                // const div_a = document.createElement('div');
+                // const img = document.createElement('img');
                 //console.log(imgUrl);
                 //Set img src
                 /*alert
@@ -307,25 +391,18 @@
                 div_a.appendChild(img);
                 photos.appendChild(div_a);*/
                 //location.reload();
-
+            }
+            else
+            {
+                alert("You need to take a photo before you can save it.");
             }
         }
 
-        //clear Event
-      /*  clearButton.addEventListener('click', function(e)
-        {
-            //clear images
-            photos.innerHTML = "";
-        });*/
-
-      window.onload = function () {
+      window.onload = function ()
+      {
           load_image();
-       // document.getElementById('remove').addEventListener('submit', function(event){
-         //   event.preventDefault();
-           // }
-
-        //})
-          };
+          photoButton.disabled = true;
+      };
 
       function delimage(button) {
           /*alert(button.getAttribute("data-image_id"));
@@ -347,6 +424,7 @@
           }
           hr.send(post_vars);
           load_image();
+
       }
 
       function load_image() {

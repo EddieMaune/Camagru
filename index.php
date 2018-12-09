@@ -19,7 +19,6 @@ if (isset($_GET['bmb']))
 			Camagru
 		</H1>
         <A href="index.php">Home</A>
-        <A href="upload.php">Upload</A>
         <A href="capture.php">Take/Edit Photo</A>
         <a href="preferences.php">Preferences</a>
 		<HR>
@@ -59,14 +58,14 @@ while ($row = $statement->fetch())
 }
 if (!isset($_SESSION['username'])):
 ?>
-		<P>
+		<P align="center">
 			You are currently not signed in 
 			<a href="authentication/login.php">Login</a> 
 			Not yet a member?
 			<a href="authentication/signup.php">Signup</a>
 		</P>
 <?PHP else: ?>
-		<P>
+		<P align="center">
 		You are logged in as <?PHP if(isset($_SESSION['username'])) echo $_SESSION['username'];?>
 			<A href="authentication/logout.php">Logout</A>
 </P>
@@ -74,6 +73,7 @@ if (!isset($_SESSION['username'])):
 endif;
 /**Pagination Links **/
 $range = 5;
+echo "<p align='center'>";
 if ($current_page > 1)
 {
     $prev_page = $current_page - 1;
@@ -83,6 +83,7 @@ if ($current_page > 1)
     echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$prev_page'><small>&lt</small></A>";
     echo "   ";
 }
+
 for ($i = ($current_page - $range); $i < ($current_page + $range + 1); $i++)
 {
     if (($i > 0) && ($i <= $total_pages))
@@ -99,6 +100,7 @@ for ($i = ($current_page - $range); $i < ($current_page + $range + 1); $i++)
             }
     }
 }
+
 if ($current_page != $total_pages)
 {
     $next_page = $current_page + 1;
@@ -106,6 +108,7 @@ if ($current_page != $total_pages)
     echo "   ";
     echo "<A href='{$_SERVER['PHP_SELF']}?current_page=$total_pages'>&raquo</A>";
 }
+echo "</p>";
 
 ?>
 	</BODY>

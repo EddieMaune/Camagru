@@ -14,7 +14,7 @@ try{
         $img_id = $row['id'];
         $uid = $row['user_id'];
         echo "<div>";
-        echo "<img src='images/$image'>";
+        echo "<a href='view_post.php?image=$image&img_id=$img_id'><img src='images/$image'></a>";
        // echo "<BUTTON><"
         echo "
                              
