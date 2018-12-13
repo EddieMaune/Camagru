@@ -49,7 +49,7 @@ if (isset($_POST["signup"]))
             } catch (PDOException $ex) {
                 $result = "<P style='padding: 20px; color: red;'> An error occurred:" . $ex->getMessage() . "</P>";
                 if (strstr($result, "Duplicate"))
-                    $result = "<P style='color:red;'>Email is already a registered user</P>";
+                    $result = "<P style='color:red;'>There  is already a user registered with that username and/or email</P>";
             }
         }
         else
@@ -61,7 +61,7 @@ if (isset($_POST["signup"]))
 	{
 		if (count($form_errors) == 1)
 		{
-			$result = "<P style='color:red;'> There is one required field in the form</P>";
+			$result = "<P style='color:red;'> There was one error in the form:</P>";
 		}
 		else
 		{

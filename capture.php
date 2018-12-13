@@ -204,14 +204,14 @@
                     console.log(overlays);
                 }
             }
-            if (overlays.length == 0)
+           /* if (overlays.length == 0)
             {
                 photoButton.disabled = true;
             }
             else
             {
                 photoButton.disabled = false;
-            }
+            }*/
         }
         //Global variables
         let width = 500,
@@ -275,7 +275,7 @@
         function takePicture()
         {
             const context = canvas.getContext('2d');
-            if (video.style.display != "none")
+            if (video.style.display != "none" )
             {
                 blank = 0;
                 if (width && height)
@@ -310,34 +310,42 @@
             }
             else
             {
-                blank = 0;
-                const upload = document.getElementById("upload");
-                canvas.width = 500;
-                canvas.height = 375;
-                //Draw an image of the video on canvas
-                context.drawImage(upload, 0, 0, 500, 375);
-                //create image from the canvas
-
-                for (var i = 0; i < overlays.length; i++)
+                if (video.style.display == "none" && upload.hasAttribute("src"))
                 {
-                    if (overlays[i] == "smileyemoji.png")
+                    blank = 0;
+                    const upload = document.getElementById("upload");
+                    canvas.width = 500;
+                    canvas.height = 375;
+                    //Draw an image of the video on canvas
+                    context.drawImage(upload, 0, 0, 500, 375);
+                    //create image from the canvas
+
+                    for (var i = 0; i < overlays.length; i++)
                     {
-                        context.drawImage(smiley, 0, 0, 50, 50);
-                    }
-                    if (overlays[i] == "fireemoji.png")
-                    {
-                        context.drawImage(fire, 450, 0, 50, 50);
-                    }
-                    if (overlays[i] == "pooemoji.png")
-                    {
-                        context.drawImage(poo, 0, 325, 50, 50);
-                    }
-                    if (overlays[i] == "monkey.png")
-                    {
-                        context.drawImage(monkey, 450, 325, 50, 50);
+                        if (overlays[i] == "smileyemoji.png")
+                        {
+                            context.drawImage(smiley, 0, 0, 50, 50);
+                        }
+                        if (overlays[i] == "fireemoji.png")
+                        {
+                            context.drawImage(fire, 450, 0, 50, 50);
+                        }
+                        if (overlays[i] == "pooemoji.png")
+                        {
+                            context.drawImage(poo, 0, 325, 50, 50);
+                        }
+                        if (overlays[i] == "monkey.png")
+                        {
+                            context.drawImage(monkey, 450, 325, 50, 50);
+                        }
                     }
                 }
+                else
+                {
+                    alert("You need to upload a picture before you can snap.")
+                }
             }
+
         }
 
         function savePicture()
@@ -401,7 +409,7 @@
       window.onload = function ()
       {
           load_image();
-          photoButton.disabled = true;
+         // photoButton.disabled = true;
       };
 
       function delimage(button) {

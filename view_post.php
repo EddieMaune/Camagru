@@ -93,5 +93,9 @@
             <input type="hidden" value="<?PHP echo $uid;?>" name="uid">
         </FORM>
     </div>
+    <p align="center">
+        You are logged in as <?PHP if(isset($_SESSION['username'])) echo $_SESSION['username'];?>
+        <A href="authentication/logout.php">Logout</A>
+    </p>
     </BODY>
 </HTML>

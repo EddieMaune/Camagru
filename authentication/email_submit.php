@@ -6,7 +6,6 @@ if (isset($_POST['btn']))
 	$confirm_code = rand();
 
 	$confirmation_message = "
-		Confirm Your Email
 		Click the link below to reset your password.
 		http://localhost:8080/Camagru/authentication/forgot_password.php?email=$email&code=$confirm_code
 							";
@@ -17,11 +16,12 @@ if (isset($_POST['btn']))
 		$statement->execute(array(':email'=>$email));
 		if ($statement->rowCount() == 1)
 		{
-			mail($email, "Camagru Email Confirmation", $confirmation_message, "From: dontreply@camagru.com");
+			mail($email, "Camagru  Password", $confirmation_message, "From: dontreply@camagru.com");
 				$sql = "UPDATE users SET confirm_code = :confirm_code WHERE email = :email";
 				$statement = $connection->prepare($sql);
 				$statement->execute(array(':confirm_code' => $confirm_code, ':email' => $email));
-				$result = "<P style='color:green;'>Reset email sent.</P>";
+				$result = "<P style='color:green;'>Password reset email sent.</P>";
+				header("Location: email_submit.php?msg=$result");
 		}
 		else
 		{
@@ -51,11 +51,13 @@ if (isset($_POST['btn']))
 			Reset Password
 		</H2>
 <?PHP
-if (isset($result))
-	echo $result;
+if (isset($_GET['msg']))
+	echo $_GET['msg'];
+else
+    echo "";
 ?>
 		<FORM method="post" action="">
-			<INPUT type="email" placeholder="Email Address"name="email">
+			<INPUT type="email" placeholder="Email Address"name="email" required>
 			<INPUT type="submit" value="submit email" name="btn">
 		</FORM>
 		<A href="../index.php">Home</A>

@@ -10,6 +10,8 @@ if (isset($_GET['email']) && isset($_GET['code']))
 		$form_errors = array_merge($form_errors, check_empty_fields($required_fields));
 		$check_length = array("new_password"=> 6, "confirm_password"=> 6);
 		$form_errors = array_merge($form_errors, check_min_length($check_length));
+        if (isset($_POST['new_password']))
+            $form_errors = array_merge($form_errors, check_password_strength($_POST['new_password']));
 		if (empty($form_errors))
 		{
 			$email = $_GET['email'];
@@ -101,7 +103,7 @@ if (isset($result))
 {
 	echo $result;
 	if (isset($success) && $success == 1)
-		header("Refresh: 2; url=../index.php");
+		header("Refresh: 2; url=login.php");
 }
 if (!empty($form_errors))
     echo show_errors($form_errors);

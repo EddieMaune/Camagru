@@ -64,6 +64,8 @@ if (isset($_POST['change_password']))
     $form_errors = array_merge($form_errors, check_empty_fields($required_fields));
     $check_length = array("new_password"=> 6, "confirm_password"=> 6);
     $form_errors = array_merge($form_errors, check_min_length($check_length));
+    if (isset($_POST['new_password']))
+        $form_errors = array_merge($form_errors, check_password_strength($_POST['new_password']));
     if (empty($form_errors))
     {
         $password1 =  htmlspecialchars($_POST['new_password'], ENT_QUOTES, 'UTF-8');
@@ -89,7 +91,7 @@ if (isset($_POST['change_password']))
                             $sql_update = "UPDATE users SET password = :password WHERE id = :id";
                             $statement = $connection->prepare($sql_update);
                             $statement->execute(array(':password'=>$hashed_password, ':id'=>$id));
-                            $result = "<P style='color:green;'>Password reset successful</P>";
+                            $result = "<P style='color:green;'>Password changed successful</P>";
                             $success = 1;
                     }
                 }
